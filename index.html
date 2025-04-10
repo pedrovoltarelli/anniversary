@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Ano de Amor - Nossa História</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .heart {
+            color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .photo-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #e74c3c;
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+            position: relative;
+        }
+        
+        #couplePhoto {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .photo-container:hover #couplePhoto {
+            transform: scale(1.05);
+        }
+        
+        .upload-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .message-section {
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            color: #ffffff;
+        }
+        
+        .message-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .memories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .memory {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .memory.visible {
+            opacity: 1;
+        }
+        
+        .memory:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(231, 76, 60, 0.3);
+        }
+        
+        .memory img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .memory-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .memory:hover .memory-caption {
+            opacity: 1;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .countdown {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 20px 0;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Slideshow */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin: 30px 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .slide-content h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .photo-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .slideshow {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .photo-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .slideshow {
+                height: 300px;
+            }
+            
+            .memory {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>1 Ano de Amor <span class="heart">❤</span></h1>
+            <div class="photo-container">
+                <img id="couplePhoto" src="nossa-foto6.jpg" alt="Nossa Foto">
+            </div>
+            <input type="file" id="fileInput" accept="image/*">
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Adicionar Nossa Foto</button>
+        </header>
+        
+        <div class="countdown" id="countdown"></div>
+        
+        <div class="slideshow">
+            <div class="slide active" style="background-image: url('fotos/nossa-foto9.jpg');">
+                <div class="slide-content">
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('fotos/nossa-foto2.jpg');">
+                <div class="slide-content">
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('fotos/nossa-foto3.jpg');">
+                <div class="slide-content">
+                </div>
+            </div>
+        </div>
+        
+        <section class="message-section" id="message1">
+            <h2>Minha Querida</h2>
+            <p>Hoje completamos um ano de namoro, um ano de descobertas, aprendizados e muito amor. Cada momento ao seu lado tem sido especial e único. Você trouxe luz à minha vida de uma forma que eu nunca imaginei possível.</p>
+            <p>Lembro como se fosse hoje do primeiro dia que nos vimos, da primeira vez que segurei sua mão, do primeiro beijo... Cada detalhe ficou guardado no meu coração.</p>
+        </section>
+        
+        <section class="message-section" id="message2">
+            <h2>Nossa Jornada</h2>
+            <p>Nesse um ano, enfrentamos desafios juntos, rimos muito, choramos algumas vezes, mas acima de tudo, crescemos como casal. Cada experiência nos aproximou mais e mostrou o quanto somos fortes quando estamos unidos.</p>
+            <p>Você é minha companheira, minha melhor amiga, meu porto seguro. Não há dia que eu não agradeça por ter você na minha vida.</p>
+        </section>
+        
+        <div class="memories">
+            <div class="memory">
+                <img src="nossa-foto7.jpg" alt="Memória 1">
+            </div>
+            <div class="memory">
+                <img src="nossa-foto8.jpg" alt="Memória 2">
+            </div>
+            <div class="memory">
+                <img src="nossa-foto4.jpg" alt="Memória 3">
+            </div>
+            <div class="memory">
+                <img src="nossa-foto5.jpg" alt="Memória 4">
+            </div>
+        </div>
+        
+        <section class="message-section" id="message3">
+            <h2>Meu Amor por Você</h2>
+            <p>Eu te amo não apenas pelo que você é, mas pelo que eu sou quando estou com você. Você me inspira a ser uma pessoa melhor todos os dias. Seu sorriso ilumina meus dias mais cinzentos, seu abraço é meu lugar favorito no mundo.</p>
+            <p>Neste nosso primeiro aniversário, quero renovar minha promessa de amor, respeito e dedicação. Que possamos comemorar muitos outros anos juntos, construindo uma história linda e cheia de felicidade.</p>
+            <p>Para sempre seu,</p>
+            <p style="text-align: center; font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: #e74c3c; margin-top: 20px;">Minha Pitica.</p>
+        </section>
+        
+        <footer>
+            <p>Nosso amor - 1 ano e contando...</p>
+            <p>© 2025 - Feito com ❤ especialmente para você</p>
+        </footer>
+    </div>
+
+    <script>
+        // Carregar foto do casal
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('couplePhoto').src = event.target.result;
+                    // Salvar no localStorage para persistência
+                    localStorage.setItem('couplePhoto', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Verificar se há foto salva no localStorage
+        window.addEventListener('load', function() {
+            const savedPhoto = localStorage.getItem('couplePhoto');
+            if (savedPhoto) {
+                document.getElementById('couplePhoto').src = savedPhoto;
+            }
+        });
+        
+        // Contador de tempo juntos
+        function updateCountdown() {
+            // Substitua com a data real do início do relacionamento
+            const startDate = new Date('2024-03-30'); // ATUALIZE ESTA DATA
+            const now = new Date();
+            
+            const diffTime = Math.abs(now - startDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+            const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('countdown').innerHTML = `
+                Juntos por: ${diffDays} dias, ${diffHours} horas e ${diffMinutes} minutos
+            `;
+        }
+        
+        setInterval(updateCountdown, 60000); // Atualizar a cada minuto
+        updateCountdown(); // Executar imediatamente
+        
+        // Efeito de transição ao rolar a página
+        const sections = document.querySelectorAll('.message-section, .memory');
+        
+        function checkScroll() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        
+        // Slideshow automático
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        setInterval(nextSlide, 5000); // Mudar slide a cada 5 segundos
+    </script>
+</body>
+</html>
